@@ -6,12 +6,7 @@ export default function StartStopButton(props) {
 
     const handlePress = () => {
         props.setIsStart(!props.isStart);
-
-        if (props.timed) {
-            // close the dropdown
-            props.closeDropdown();
-        }
-
+        
     }
 
     const getText = () => {

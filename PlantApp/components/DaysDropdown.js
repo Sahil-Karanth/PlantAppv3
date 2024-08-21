@@ -2,35 +2,60 @@ import { StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import GlobalStyles from '../styles/styles';
 
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 
 export default function DaysDropdown(props) {
 
-    const [selected, setSelected] = React.useState([]);
+    const [selected, setSelected] = useState([]);
   
     const data = [
-        {key:'1', value:'Monday'},
-        {key:'2', value:'Tuesday'},
-        {key:'3', value:'Wednesday'},
-        {key:'4', value:'Thursday'},
-        {key:'5', value:'Friday'},
-        {key:'6', value:'Saturday'},
-        {key:'7', value:'Sunday'},
-    ]
+        { label: 'Monday', value: '1' },
+        { label: 'Tuesday', value: '2' },
+        { label: 'Wednesday', value: '3' },
+        { label: 'Thursday', value: '4' },
+        { label: 'Friday', value: '5' },
+        { label: 'Saturday', value: '6' },
+        { label: 'Sunday', value: '7' },
+      ];
   
     return(
 
         <View style={{width: 300}}>
-            <MultipleSelectList
-                ref={props.ref}
-                setSelected={(val) => setSelected(val)} 
-                data={data} 
-                save="value"
-                label="Days"
-                boxStyles={{backgroundColor: '#f0f0f0'}}
-                dropdownStyles={{backgroundColor: '#f0f0f0'}}
+            
+            <MultiSelect
+                style={styles.dropdown}
+                search={false}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                iconStyle={styles.iconStyle}
+                data={data}
+                labelField="label"
+                valueField="value"
+                placeholder="Select Days"
+                value={selected}
+                onChange={item => {
+                    setSelected(item);
+                }}
+                disable={props.DropdownDisabled}
             />
+
         </View>
     )
 
 }
+
+styles = StyleSheet.create({
+
+    dropdown: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 10,
+        borderWidth: 1,
+    },
+
+    placeholderStyle: {
+        fontSize: 20,
+    },
+
+
+});
