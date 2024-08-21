@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GlobalStyles from '../styles/styles';
 
 // components
@@ -12,6 +12,21 @@ export default function HomeScreen(props) {
     const [isManualPage, setIsManualPage] = useState(true);
     const [days, setDays] = useState([]);
     const [toggleDisabled, setToggleDisabled] = useState(false);
+    const [toggleState, setToggleState] = useState(false);
+    const [isStart, setIsStart] = useState(false)
+
+
+    useEffect(() => {
+
+        console.log("log")
+        
+        // const response = {running: true, mode: "manual"} // replace with fetch request to server
+        // if (response.running) {
+        //     setIsStart(true);
+        // }
+
+
+    }, [toggleState])
 
     const handleStartManual = () => {
         console.log("Start (manual)");
@@ -47,12 +62,13 @@ export default function HomeScreen(props) {
                 setIsManualPage={setIsManualPage}
                 setDays={setDays}
                 disabled={toggleDisabled}
+                setToggleState={setToggleState}
             />
             
             {isManualPage ? (
-                <ManualContent handleStart={() => handleStartManual()} handleStop={() => handleStopManual()} />
+                <ManualContent handleStart={() => handleStartManual()} handleStop={() => handleStopManual()} isStart={isStart} setIsStart={setIsStart} />
             ) : (
-                <TimedContent handleStart={() => handleStartTimed(days)} handleStop={() => handleStopTimed()} setDays={setDays} />
+                <TimedContent handleStart={() => handleStartTimed(days)} handleStop={() => handleStopTimed()} setDays={setDays} isStart={isStart} setIsStart={setIsStart} />
             )}
 
         </View>

@@ -9,23 +9,19 @@ import StartStopButton from './StartStopButton';
 
 export default function TimedContent(props) {
 
-  const [isStart, setIsStart] = useState(false)
-
   return (
     <View style={styles.ComponentContainer}>
 
-      <DaysDropdown DropdownDisabled={isStart} setDays={props.setDays} />
+      <DaysDropdown DropdownDisabled={props.isStart} setDays={props.setDays} />
 
-      {isStart ? <InProgressText /> : null}
+      {props.isStart ? <InProgressText /> : null}
       <StartStopButton
-        isStart={isStart}
-        setIsStart={setIsStart}
+        isStart={props.isStart}
+        setIsStart={props.setIsStart}
         timed={true}
         handleStart={props.handleStart}
         handleStop={props.handleStop}
       />
-
-
 
     </View>
   );

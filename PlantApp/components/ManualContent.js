@@ -9,8 +9,6 @@ import StartStopButton from './StartStopButton';
 
 export default function ManualContent(props) {
 
-  const [isStart, setIsStart] = useState(false)
-
   const styles = StyleSheet.create({
 
     ComponentContainer: { 
@@ -22,14 +20,13 @@ export default function ManualContent(props) {
   
   });
 
-
   return (
     <View style={styles.ComponentContainer}>
 
-        {isStart ? <InProgressText /> : null}
+        {props.isStart ? <InProgressText /> : null}
         <StartStopButton
-          isStart={isStart}
-          setIsStart={setIsStart}
+          isStart={props.isStart}
+          setIsStart={props.setIsStart}
           timed={false}
           handleStart={props.handleStart}
           handleStop={props.handleStop}
