@@ -2,6 +2,9 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import GlobalStyles from '../styles/styles';
 
+// components
+import InProgressText from './InProgressText';
+
 
 export default function ManualContent(props) {
 
@@ -42,6 +45,9 @@ export default function ManualContent(props) {
 
   return (
     <View style={styles.ComponentContainer}>
+
+        {isStart ? <InProgressText /> : null}
+
 
         <TouchableOpacity style={[styles.Button]} onPress={() => setIsStart(!isStart)}>
             <Text style={styles.Text} >{getText()}</Text>

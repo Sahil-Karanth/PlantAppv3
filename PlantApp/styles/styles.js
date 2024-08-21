@@ -9,5 +9,9 @@ export default GlobalStyles = StyleSheet.create({
         padding: 20
     },
     
+    text: {
+        color: 'black',
+        fontSize: 20
+    },
 
 });
