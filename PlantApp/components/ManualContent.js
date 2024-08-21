@@ -4,19 +4,12 @@ import GlobalStyles from '../styles/styles';
 
 // components
 import InProgressText from './InProgressText';
+import StartStopButton from './StartStopButton';
 
 
 export default function ManualContent(props) {
 
   const [isStart, setIsStart] = useState(false)
-
-  const getText = () => {
-    return isStart ? 'Stop' : 'Start';
-  }
-  
-  const getBackgroundColor = () => {
-    return isStart ? '#ff4747' : '#2f42ed';
-  }
 
   const styles = StyleSheet.create({
 
@@ -25,19 +18,6 @@ export default function ManualContent(props) {
         backgroundColor: '#caf797',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-
-    Button: {
-        backgroundColor: getBackgroundColor(),
-        padding: 20,
-        borderRadius: 5,
-        marginTop: 20,
-        
-    },
-
-    Text: {
-      color: 'white',
-      fontSize: 40
     }
   
   });
@@ -47,11 +27,11 @@ export default function ManualContent(props) {
     <View style={styles.ComponentContainer}>
 
         {isStart ? <InProgressText /> : null}
-
-
-        <TouchableOpacity style={[styles.Button]} onPress={() => setIsStart(!isStart)}>
-            <Text style={styles.Text} >{getText()}</Text>
-        </TouchableOpacity>
+        <StartStopButton
+          isStart={isStart}
+          setIsStart={setIsStart}
+          timed={false}
+        />
 
     </View>
   );
