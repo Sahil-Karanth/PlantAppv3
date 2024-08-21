@@ -3,18 +3,13 @@ import React, { useState } from 'react';
 import { Switch } from 'react-native-switch';
 import styles from '../styles/styles';
 
-export default function ToggleSwitch() {
-  const [switchOn, setSwitchOn] = useState(false);
-
-  const handleSwitchChange = (value) => {
-    setSwitchOn(value);
-  };
+export default function ToggleSwitch(props) {
 
   return (
     <View style={styles.toggleSwitch}>
       <Switch
-        value={switchOn}
-        onValueChange={handleSwitchChange}
+        value={props.isManualPage}
+        onValueChange={(value) => props.setIsManualPage(value)}
         activeText={'Manual'}
         inActiveText={'Timed'}
         circleSize={50} // Increase for larger circle

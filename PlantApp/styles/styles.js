@@ -6,6 +6,8 @@ export default GlobalStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#caf797',
         alignItems: 'center',
+        padding: 20
     },
+    
 
 });
