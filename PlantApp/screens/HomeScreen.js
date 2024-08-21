@@ -56,12 +56,12 @@ export default function HomeScreen(props) {
         }
 
         console.log("Start (timed) with days: ", days_array);
-        setToggleDisabled(true);
+        // setToggleDisabled(true);
     }
 
     const handleStopTimed = () => {
         console.log("Stop (timed)");
-        setToggleDisabled(false);
+        // setToggleDisabled(false);
     }
 
     return (
@@ -81,6 +81,7 @@ export default function HomeScreen(props) {
                     handleStop={() => handleStopManual()}
                     isStart={isStartManual}
                     setIsStart={setIsStartManual}
+                    timedRunning={isStartTimed}
                 />
             ) : (
                 <TimedContent
@@ -89,6 +90,7 @@ export default function HomeScreen(props) {
                     setDays={setDays}
                     isStart={isStartTimed}
                     setIsStart={setIsStartTimed}
+                    manualRunning={isStartManual}
                 />
             )}
 

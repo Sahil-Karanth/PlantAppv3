@@ -6,6 +6,14 @@ export default function StartStopButton(props) {
 
     const handlePress = () => {
 
+        if (props.timed && props.manualRunning) {
+            alert("Cannot start manual mode while timed mode is running!");
+            return;
+        } else if (!props.timed && props.timedRunning) {
+            alert("Cannot start timed mode while manual mode is running!");
+            return;
+        }
+
         props.setIsStart(!props.isStart);
 
         if (props.isStart) {

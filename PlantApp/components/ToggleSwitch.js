@@ -7,7 +7,7 @@ export default function ToggleSwitch(props) {
 
   const handleValueChange = (value) => {
     props.setIsManualPage(value);
-    props.setToggleState(value);
+    // props.setToggleState(value);
     props.setDays([]);
   }
 
@@ -32,7 +32,6 @@ export default function ToggleSwitch(props) {
         switchBorderRadius={20} // Adjust for rounded edges
         activeTextStyle={{ fontSize: 20 }}
         inactiveTextStyle={{ fontSize: 20 }}
-        disabled={props.disabled}
       />
     </View>
   );

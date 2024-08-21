@@ -19,6 +19,7 @@ export default function TimedContent(props) {
         isStart={props.isStart}
         setIsStart={props.setIsStart}
         timed={true}
+        manualRunning={props.manualRunning}
         handleStart={props.handleStart}
         handleStop={props.handleStop}
       />

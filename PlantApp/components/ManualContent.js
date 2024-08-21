@@ -28,6 +28,7 @@ export default function ManualContent(props) {
           isStart={props.isStart}
           setIsStart={props.setIsStart}
           timed={false}
+          timedRunning={props.timedRunning}
           handleStart={props.handleStart}
           handleStop={props.handleStop}
         />
