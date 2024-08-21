@@ -18,8 +18,10 @@ export default function HomeScreen(props) {
 
 
     useEffect(() => {
+
+        console.log("checking Pi watering status...")
         
-        const response = {running: false, mode: "manual"} // replace with fetch request to server
+        const response = {running: true, mode: "manual"} // replace with fetch request to server
         if (response.running) {
             setIsStartManual(true);
         }
@@ -56,12 +58,12 @@ export default function HomeScreen(props) {
         }
 
         console.log("Start (timed) with days: ", days_array);
-        // setToggleDisabled(true);
+        setToggleDisabled(true);
     }
 
     const handleStopTimed = () => {
         console.log("Stop (timed)");
-        // setToggleDisabled(false);
+        setToggleDisabled(false);
     }
 
     return (

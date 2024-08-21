@@ -7,7 +7,7 @@ export default function ToggleSwitch(props) {
 
   const handleValueChange = (value) => {
     props.setIsManualPage(value);
-    // props.setToggleState(value);
+    props.setToggleState(value);
     props.setDays([]);
   }
 
