@@ -31,7 +31,7 @@ export default function App() {
   
     headerRight: () => (
       <TouchableOpacity>
-        <Ionicons name="search" size={40} color="black" />
+        <Ionicons name="camera" size={40} color="black" />
       </TouchableOpacity>
     ),
   
