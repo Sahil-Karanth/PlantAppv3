@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import GlobalStyles from '../styles/styles';
 
@@ -17,14 +17,49 @@ export default function HomeScreen(props) {
     const [isStartTimed, setIsStartTimed] = useState(false)
 
 
+    const asyncErrorAlert = async() => {
+        return new Promise((resolve) => {
+            Alert.alert(
+                "Failed to get Pi watering status",
+                "Please try again",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => resolve('YES'),
+                    }
+                ],
+                { cancelable: false }
+            );
+        });
+    }
+
+
+    const checkWateringStatus = async() => {
+        // keep requesting until successful
+        
+        const response = {running: false, mode: "manual", failed: false} // replace with fetch request to server
+        
+        if (response.failed) {
+            await asyncErrorAlert();
+            console.log("Failed to get Pi watering status");
+            checkWateringStatus();
+        }
+        
+        if (response.running && response.mode === "manual") {
+            setIsStartManual(true);
+        } else if (response.running && response.mode === "timed") {
+            setIsStartTimed(true);
+        }
+    }
+
+
     useEffect(() => {
 
         console.log("checking Pi watering status...")
+
+        // keep requesting until successful
         
-        const response = {running: true, mode: "manual"} // replace with fetch request to server
-        if (response.running) {
-            setIsStartManual(true);
-        }
+        checkWateringStatus();
 
 
     }, [toggleState])

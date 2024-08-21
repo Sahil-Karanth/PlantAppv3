@@ -14,6 +14,17 @@ export default function StartStopButton(props) {
             return;
         }
 
+
+        // send to Pi
+
+        response = true // replace with fetch request to server
+
+        if (!response) {
+            alert("Failed to send command to Pi");
+            return;
+        }
+
+
         props.setIsStart(!props.isStart);
 
         if (props.isStart) {
