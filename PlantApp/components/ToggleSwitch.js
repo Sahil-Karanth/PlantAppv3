@@ -15,9 +15,9 @@ export default function ToggleSwitch(props) {
         circleSize={50} // Increase for larger circle
         barHeight={50} // Increase for taller bar
         circleBorderWidth={3}
-        backgroundActive={'green'}
-        backgroundInactive={'gray'}
-        circleActiveColor={'#30a566'}
+        backgroundActive={'#253CDA'}
+        backgroundInactive={'#ff4747'}
+        circleActiveColor={'#000000'}
         circleInActiveColor={'#000000'}
         changeValueImmediately={true}
         switchLeftPx={5}

@@ -14,7 +14,7 @@ export default function StartStopButton(props) {
     }
       
     const getBackgroundColor = () => {
-        return props.isStart ? '#ff4747' : '#2f42ed';
+        return props.isStart ? '#ff4747' : '#253CDA';
     }
     
     const styles = StyleSheet.create({
