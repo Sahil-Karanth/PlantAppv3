@@ -13,32 +13,42 @@ export default function HomeScreen(props) {
     const [days, setDays] = useState([]);
     const [toggleDisabled, setToggleDisabled] = useState(false);
     const [toggleState, setToggleState] = useState(false);
-    const [isStart, setIsStart] = useState(false)
+    const [isStartManual, setIsStartManual] = useState(false)
+    const [isStartTimed, setIsStartTimed] = useState(false)
 
 
     useEffect(() => {
-
-        console.log("log")
         
-        // const response = {running: true, mode: "manual"} // replace with fetch request to server
-        // if (response.running) {
-        //     setIsStart(true);
-        // }
+        const response = {running: false, mode: "manual"} // replace with fetch request to server
+        if (response.running) {
+            setIsStartManual(true);
+        }
 
 
     }, [toggleState])
 
     const handleStartManual = () => {
+
+        if (isStartTimed) {
+            alert("Cannot start manual mode while timed mode is running!");
+            return;
+        }
         console.log("Start (manual)");
         setToggleDisabled(true);
     }
 
     const handleStopManual = () => {
+
         console.log("Stop (manual)");
         setToggleDisabled(false);
     }
 
     const handleStartTimed = (days_array) => {
+
+        if (isStartManual) {
+            alert("Cannot start timed mode while manual mode is running!");
+            return;
+        }
 
         if (days_array.length === 0) {
             alert("No days selected!");
@@ -66,9 +76,20 @@ export default function HomeScreen(props) {
             />
             
             {isManualPage ? (
-                <ManualContent handleStart={() => handleStartManual()} handleStop={() => handleStopManual()} isStart={isStart} setIsStart={setIsStart} />
+                <ManualContent
+                    handleStart={() => handleStartManual()}
+                    handleStop={() => handleStopManual()}
+                    isStart={isStartManual}
+                    setIsStart={setIsStartManual}
+                />
             ) : (
-                <TimedContent handleStart={() => handleStartTimed(days)} handleStop={() => handleStopTimed()} setDays={setDays} isStart={isStart} setIsStart={setIsStart} />
+                <TimedContent
+                    handleStart={() => handleStartTimed(days)}
+                    handleStop={() => handleStopTimed()}
+                    setDays={setDays}
+                    isStart={isStartTimed}
+                    setIsStart={setIsStartTimed}
+                />
             )}
 
         </View>

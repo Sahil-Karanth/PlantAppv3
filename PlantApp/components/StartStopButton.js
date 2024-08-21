@@ -5,6 +5,7 @@ import GlobalStyles from '../styles/styles';
 export default function StartStopButton(props) {
 
     const handlePress = () => {
+
         props.setIsStart(!props.isStart);
 
         if (props.isStart) {
