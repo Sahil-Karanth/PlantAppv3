@@ -27,6 +27,7 @@ export default function DaysDropdown(props) {
                 search={false}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
+                selectedStyle={styles.selectedStyle}
                 iconStyle={styles.iconStyle}
                 data={data}
                 labelField="label"
@@ -55,6 +56,18 @@ styles = StyleSheet.create({
 
     placeholderStyle: {
         fontSize: 20,
+    },
+
+    selectedStyle: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+
+    },
+
+    selectedTextStyle: {
+        fontSize: 20,
+        color: 'black',
+        
     },
 
 
