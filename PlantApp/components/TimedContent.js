@@ -11,17 +11,18 @@ export default function TimedContent(props) {
 
   const [isStart, setIsStart] = useState(false)
 
-
   return (
     <View style={styles.ComponentContainer}>
 
-      <DaysDropdown DropdownDisabled={isStart} />
+      <DaysDropdown DropdownDisabled={isStart} setDays={props.setDays} />
 
       {isStart ? <InProgressText /> : null}
       <StartStopButton
         isStart={isStart}
         setIsStart={setIsStart}
         timed={true}
+        handleStart={props.handleStart}
+        handleStop={props.handleStop}
       />
 
 

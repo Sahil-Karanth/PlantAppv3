@@ -5,11 +5,16 @@ import styles from '../styles/styles';
 
 export default function ToggleSwitch(props) {
 
+  const handleValueChange = (value) => {
+    props.setIsManualPage(value);
+    props.setDays([]);
+  }
+
   return (
     <View style={styles.toggleSwitch}>
       <Switch
         value={props.isManualPage}
-        onValueChange={(value) => props.setIsManualPage(value)}
+        onValueChange={handleValueChange}
         activeText={'Manual'}
         inActiveText={'Timed'}
         circleSize={50} // Increase for larger circle
@@ -26,6 +31,7 @@ export default function ToggleSwitch(props) {
         switchBorderRadius={20} // Adjust for rounded edges
         activeTextStyle={{ fontSize: 20 }}
         inactiveTextStyle={{ fontSize: 20 }}
+        disabled={props.disabled}
       />
     </View>
   );

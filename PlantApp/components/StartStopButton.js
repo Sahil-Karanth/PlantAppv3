@@ -6,7 +6,12 @@ export default function StartStopButton(props) {
 
     const handlePress = () => {
         props.setIsStart(!props.isStart);
-        
+
+        if (props.isStart) {
+            props.handleStop();
+        } else {
+            props.handleStart();
+        }
     }
 
     const getText = () => {

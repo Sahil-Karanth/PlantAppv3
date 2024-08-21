@@ -31,6 +31,8 @@ export default function ManualContent(props) {
           isStart={isStart}
           setIsStart={setIsStart}
           timed={false}
+          handleStart={props.handleStart}
+          handleStop={props.handleStop}
         />
 
     </View>

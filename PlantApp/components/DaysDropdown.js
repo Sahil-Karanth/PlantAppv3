@@ -9,13 +9,13 @@ export default function DaysDropdown(props) {
     const [selected, setSelected] = useState([]);
   
     const data = [
-        { label: 'Monday', value: '1' },
-        { label: 'Tuesday', value: '2' },
-        { label: 'Wednesday', value: '3' },
-        { label: 'Thursday', value: '4' },
-        { label: 'Friday', value: '5' },
-        { label: 'Saturday', value: '6' },
-        { label: 'Sunday', value: '7' },
+        { label: 'Monday', value: 'Monday' },
+        { label: 'Tuesday', value: 'Tuesday' },
+        { label: 'Wednesday', value: 'Wednesday' },
+        { label: 'Thursday', value: 'Thursday' },
+        { label: 'Friday', value: 'Friday' },
+        { label: 'Saturday', value: 'Saturday' },
+        { label: 'Sunday', value: 'Sunday' },
       ];
   
     return(
@@ -36,6 +36,7 @@ export default function DaysDropdown(props) {
                 value={selected}
                 onChange={item => {
                     setSelected(item);
+                    props.setDays(item);
                 }}
                 disable={props.DropdownDisabled}
             />
