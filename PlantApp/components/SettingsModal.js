@@ -1,30 +1,64 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Modal, TouchableOpacity, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import db from '../FirebaseConfig';
+import { ref, update, onValue } from "firebase/database";
 
 export default function SettingsModal(props) {
+    const [systemResponsive, setSystemResponsive] = useState(false);
+    let pingSent = false;
 
-    let system_status = "Active";
-    let water_level = "Normal";
+    useEffect(() => {
+        if (!props.modalOpen) {
+
+            // Reset system responsive state
+            
+            setSystemResponsive(false);
+            const dbRef = ref(db);
+            update(dbRef, {
+                response_app_ping: false,
+            });
+
+            return;
+
+        }
+
+        const dbRef = ref(db);
+
+        // Send ping to Pi
+        update(dbRef, {
+            response_app_ping: true,
+        });
+
+        // Set up listener for response_pi_pong
+        const pongListener = ref(db, 'response_pi_pong');
+        const unsubscribe = onValue(pongListener, (snapshot) => {
+            const response = snapshot.val();
+            if (response) {
+                setSystemResponsive(true);
+            }
+        });
+
+        // Clean up listener on unmount or when modal closes
+        return () => {
+            unsubscribe();
+        };
+
+    }, [props.modalOpen]);
 
     return (
         <Modal visible={props.modalOpen} animationType='slide' transparent={true}>
             <View style={styles.overlay}>
                 <View style={styles.modal}>
-
                     <TouchableOpacity onPress={() => props.setModalOpen(false)}>
                         <Ionicons name="close" size={40} color="black" />
                     </TouchableOpacity>
                     
-
-                    <Text style={styles.TableRow}>Status: {system_status}</Text>
-                    <Text style={styles.TableRow}>Water level: {water_level}</Text>
+                    <Text style={styles.TableRow}>System responsive: {systemResponsive ? 'Yes' : 'No'}</Text>
 
                     <TouchableOpacity>
                         <Text style={styles.button}>Shutdown System</Text>
                     </TouchableOpacity>
-                    
-
                 </View>
             </View>
         </Modal>
@@ -53,10 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#caf797',
         marginVertical: 15,
         fontSize: 20,
-
     },
-
-
     button: {
         backgroundColor: '#ff4747',
         padding: 10,
@@ -66,5 +97,4 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20
     }
-
 });

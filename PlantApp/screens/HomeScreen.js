@@ -20,23 +20,6 @@ export default function HomeScreen(props) {
     const [isStartTimed, setIsStartTimed] = useState(false)
 
 
-    const asyncErrorAlert = async() => {
-        return new Promise((resolve) => {
-            Alert.alert(
-                "Failed to get Pi watering status",
-                "Please try again",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => resolve('YES'),
-                    }
-                ],
-                { cancelable: false }
-            );
-        });
-    }
-
-
     useEffect(() => {
 
         // listen to acknowledgements from Pi
@@ -64,6 +47,7 @@ export default function HomeScreen(props) {
 
         // update firebase
         const dbRef = ref(db);
+
         update(dbRef, {
             mode: "manual",
             app_signal: true,
