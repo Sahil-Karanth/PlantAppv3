@@ -7,6 +7,10 @@ import ToggleSwitch from '../components/ToggleSwitch';
 import ManualContent from '../components/ManualContent';
 import TimedContent from '../components/TimedContent';
 
+// firebase imports
+import db from '../FirebaseConfig';
+import { get, ref, onValue, set, update, remove } from "firebase/database";
+
 export default function HomeScreen(props) {
 
     const [isManualPage, setIsManualPage] = useState(true);
@@ -35,7 +39,6 @@ export default function HomeScreen(props) {
 
 
     const checkWateringStatus = async() => {
-        // keep requesting until successful
         
         const response = {running: false, mode: "manual", failed: false} // replace with fetch request to server
         
@@ -54,9 +57,6 @@ export default function HomeScreen(props) {
 
 
     useEffect(() => {
-
-        console.log("checking Pi watering status...")
-
         // keep requesting until successful
         
         checkWateringStatus();
@@ -71,7 +71,16 @@ export default function HomeScreen(props) {
             return;
         }
         console.log("Start (manual)");
+
+        // update firebase
+        const dbRef = ref(db);
+        update(dbRef, {
+            mode: "manual",
+            running: true
+        });
+
         setToggleDisabled(true);
+        
     }
 
     const handleStopManual = () => {
