@@ -15,7 +15,6 @@ export default function HomeScreen(props) {
 
     const [isManualPage, setIsManualPage] = useState(true);
     const [days, setDays] = useState([]);
-    const [toggleDisabled, setToggleDisabled] = useState(false);
     const [toggleState, setToggleState] = useState(false);
     const [isStartManual, setIsStartManual] = useState(false)
     const [isStartTimed, setIsStartTimed] = useState(false)
@@ -38,47 +37,20 @@ export default function HomeScreen(props) {
     }
 
 
-    // const checkWateringStatus = async() => {
-        
-    //     const response = {running: false, mode: "manual", failed: false} // replace with fetch request to server
-        
-    //     if (response.failed) {
-    //         await asyncErrorAlert();
-    //         console.log("Failed to get Pi watering status");
-    //         checkWateringStatus();
-    //     }
-        
-    //     if (response.running && response.mode === "manual") {
-    //         setIsStartManual(true);
-    //     } else if (response.running && response.mode === "timed") {
-    //         setIsStartTimed(true);
-    //     }
-    // }
-
-
     useEffect(() => {
 
-        // listen to changes in firebase
+        // listen to acknowledgements from Pi
+
         const dbRef = ref(db);
-
-        const unsubscribe = onValue(dbRef, (snapshot) => {
+        onValue(dbRef, (snapshot) => {
             const data = snapshot.val();
-            console.log("Data: ", data);
-
+            const isStart = data.pi_signal;
             if (data.mode === "manual") {
-                setIsStartManual(data.running);
-                setIsStartTimed(false);
+                setIsStartManual(isStart);
             } else if (data.mode === "timed") {
-                setIsStartTimed(data.running);
-                setIsStartManual(false);
+                setIsStartTimed(isStart);
             }
-        });
-
-        return () => {
-            unsubscribe();
-        }
-
-        // checkWateringStatus();
+        }); 
 
     }, [toggleState])
 
@@ -94,10 +66,9 @@ export default function HomeScreen(props) {
         const dbRef = ref(db);
         update(dbRef, {
             mode: "manual",
-            running: true
+            app_signal: true,
         });
 
-        setToggleDisabled(true);
 
     }
 
@@ -109,10 +80,9 @@ export default function HomeScreen(props) {
         const dbRef = ref(db);
         update(dbRef, {
             mode: "manual",
-            running: false
+            app_signal: false,
         });
 
-        setToggleDisabled(false);
     }
 
     const handleStartTimed = (days_array) => {
@@ -131,12 +101,11 @@ export default function HomeScreen(props) {
         const dbRef = ref(db);
         update(dbRef, {
             mode: "timed",
-            running: true,
+            app_signal: true,
             days: days_array
         });
 
         console.log("Start (timed) with days: ", days_array);
-        setToggleDisabled(true);
     }
 
     const handleStopTimed = () => {
@@ -146,11 +115,10 @@ export default function HomeScreen(props) {
         const dbRef = ref(db);
         update(dbRef, {
             mode: "timed",
-            running: false,
+            app_signal: false,
             days: []
         });
 
-        setToggleDisabled(false);
     }
 
     return (
@@ -160,7 +128,6 @@ export default function HomeScreen(props) {
                 isManualPage={isManualPage}
                 setIsManualPage={setIsManualPage}
                 setDays={setDays}
-                disabled={toggleDisabled}
                 setToggleState={setToggleState}
             />
             

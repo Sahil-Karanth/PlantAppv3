@@ -25,7 +25,7 @@ export default function StartStopButton(props) {
         }
 
 
-        props.setIsStart(!props.isStart);
+        // props.setIsStart(!props.isStart);
 
         if (props.isStart) {
             props.handleStop();
