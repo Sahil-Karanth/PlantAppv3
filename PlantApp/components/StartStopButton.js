@@ -69,7 +69,7 @@ export default function StartStopButton(props) {
   return (
     <View>
 
-        <TouchableOpacity style={[styles.Button]} onPress={handlePress}>
+        <TouchableOpacity style={[styles.Button, GlobalStyles.shadow]} onPress={handlePress}>
             <Text style={styles.Text} >{getText()}</Text>
         </TouchableOpacity>
 

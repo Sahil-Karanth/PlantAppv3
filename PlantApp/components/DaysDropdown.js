@@ -61,7 +61,7 @@ styles = StyleSheet.create({
 
     selectedStyle: {
         backgroundColor: 'white',
-        borderRadius: 5,
+        borderRadius: 5
 
     },
 

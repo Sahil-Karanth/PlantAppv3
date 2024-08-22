@@ -11,6 +11,7 @@ export default function SettingsModal(props) {
     useEffect(() => {
         if (!props.modalOpen) {
 
+            console.log("Settings modal closed");
             // Reset system responsive state
             
             setSystemResponsive(false);
@@ -19,9 +20,11 @@ export default function SettingsModal(props) {
                 response_app_ping: false,
             });
 
-            return;
+            return
 
         }
+
+        console.log("Settings modal opened");
 
         const dbRef = ref(db);
 
@@ -46,6 +49,34 @@ export default function SettingsModal(props) {
 
     }, [props.modalOpen]);
 
+
+
+    useEffect(() => {
+        // listen for shutdown_pi_signal
+        const shutdownListener = ref(db, 'shutdown_pi_signal');
+        const unsubscribe = onValue(shutdownListener, (snapshot) => {
+            const shutdownSignal = snapshot.val();
+            if (shutdownSignal) {
+                console.log("Shutdown signal received");
+                setSystemResponsive(false);
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
+
+    }, []);
+
+
+    const handleShutdown = () => {
+        const dbRef = ref(db);
+        update(dbRef, {
+            shutdown_app_signal: true,
+        });
+    }
+
+
     return (
         <Modal visible={props.modalOpen} animationType='slide' transparent={true}>
             <View style={styles.overlay}>
@@ -56,7 +87,7 @@ export default function SettingsModal(props) {
                     
                     <Text style={styles.TableRow}>System responsive: {systemResponsive ? 'Yes' : 'No'}</Text>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleShutdown}>
                         <Text style={styles.button}>Shutdown System</Text>
                     </TouchableOpacity>
                 </View>
