@@ -38,28 +38,47 @@ export default function HomeScreen(props) {
     }
 
 
-    const checkWateringStatus = async() => {
+    // const checkWateringStatus = async() => {
         
-        const response = {running: false, mode: "manual", failed: false} // replace with fetch request to server
+    //     const response = {running: false, mode: "manual", failed: false} // replace with fetch request to server
         
-        if (response.failed) {
-            await asyncErrorAlert();
-            console.log("Failed to get Pi watering status");
-            checkWateringStatus();
-        }
+    //     if (response.failed) {
+    //         await asyncErrorAlert();
+    //         console.log("Failed to get Pi watering status");
+    //         checkWateringStatus();
+    //     }
         
-        if (response.running && response.mode === "manual") {
-            setIsStartManual(true);
-        } else if (response.running && response.mode === "timed") {
-            setIsStartTimed(true);
-        }
-    }
+    //     if (response.running && response.mode === "manual") {
+    //         setIsStartManual(true);
+    //     } else if (response.running && response.mode === "timed") {
+    //         setIsStartTimed(true);
+    //     }
+    // }
 
 
     useEffect(() => {
-        // keep requesting until successful
-        
-        checkWateringStatus();
+
+        // listen to changes in firebase
+        const dbRef = ref(db);
+
+        const unsubscribe = onValue(dbRef, (snapshot) => {
+            const data = snapshot.val();
+            console.log("Data: ", data);
+
+            if (data.mode === "manual") {
+                setIsStartManual(data.running);
+                setIsStartTimed(false);
+            } else if (data.mode === "timed") {
+                setIsStartTimed(data.running);
+                setIsStartManual(false);
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        }
+
+        // checkWateringStatus();
 
     }, [toggleState])
 
