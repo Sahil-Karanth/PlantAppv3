@@ -61,7 +61,6 @@ export default function HomeScreen(props) {
         
         checkWateringStatus();
 
-
     }, [toggleState])
 
     const handleStartManual = () => {
@@ -80,12 +79,20 @@ export default function HomeScreen(props) {
         });
 
         setToggleDisabled(true);
-        
+
     }
 
     const handleStopManual = () => {
 
         console.log("Stop (manual)");
+
+        // update firebase
+        const dbRef = ref(db);
+        update(dbRef, {
+            mode: "manual",
+            running: false
+        });
+
         setToggleDisabled(false);
     }
 
@@ -101,12 +108,29 @@ export default function HomeScreen(props) {
             return;
         }
 
+        // update firebase
+        const dbRef = ref(db);
+        update(dbRef, {
+            mode: "timed",
+            running: true,
+            days: days_array
+        });
+
         console.log("Start (timed) with days: ", days_array);
         setToggleDisabled(true);
     }
 
     const handleStopTimed = () => {
         console.log("Stop (timed)");
+
+        // update firebase
+        const dbRef = ref(db);
+        update(dbRef, {
+            mode: "timed",
+            running: false,
+            days: []
+        });
+
         setToggleDisabled(false);
     }
 
