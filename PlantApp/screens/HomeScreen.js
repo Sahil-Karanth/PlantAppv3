@@ -1,4 +1,6 @@
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 import React, { useState, useEffect } from 'react';
 import GlobalStyles from '../styles/styles';
 
@@ -6,6 +8,7 @@ import GlobalStyles from '../styles/styles';
 import ToggleSwitch from '../components/ToggleSwitch';
 import ManualContent from '../components/ManualContent';
 import TimedContent from '../components/TimedContent';
+import SettingsModal from '../components/SettingsModal';
 
 // firebase imports
 import db from '../FirebaseConfig';
@@ -18,9 +21,33 @@ export default function HomeScreen(props) {
     const [toggleState, setToggleState] = useState(false);
     const [isStartManual, setIsStartManual] = useState(false)
     const [isStartTimed, setIsStartTimed] = useState(false)
+    const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
 
     useEffect(() => {
+
+        console.log("HomeScreen mounted");
+        // add header options
+        const headerOptions = {
+    
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => setSettingsModalOpen(!settingsModalOpen)} >
+                <Ionicons name="settings" size={40} color="black" />  
+              </TouchableOpacity>
+            ),
+          
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('Latest Image')} >
+                <Ionicons name="camera" size={40} color="black" />
+              </TouchableOpacity>
+            ),
+          
+            // center header Title
+            headerTitleAlign: 'center',
+          
+        }
+
+        props.navigation.setOptions(headerOptions);
 
         // listen to acknowledgements from Pi
 
@@ -133,6 +160,8 @@ export default function HomeScreen(props) {
                     manualRunning={isStartManual}
                 />
             )}
+
+            <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
 
         </View>
   );
