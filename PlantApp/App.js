@@ -44,7 +44,7 @@ export default function App() {
 
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={headerOptions} />
+        <Stack.Screen name="Plant Watering" component={HomeScreen} options={headerOptions} />
       </Stack.Navigator>
 
       <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
