@@ -14,7 +14,7 @@ import SettingsModal from '../components/SettingsModal';
 import db from '../FirebaseConfig';
 import { get, ref, onValue, set, update, remove } from "firebase/database";
 
-export default function HomeScreen(props) {
+export default function HomeScreen({ navigation }) {
 
     const [isManualPage, setIsManualPage] = useState(true);
     const [days, setDays] = useState([]);
@@ -47,7 +47,7 @@ export default function HomeScreen(props) {
           
         }
 
-        props.navigation.setOptions(headerOptions);
+        navigation.setOptions(headerOptions);
 
         // listen to acknowledgements from Pi
 
