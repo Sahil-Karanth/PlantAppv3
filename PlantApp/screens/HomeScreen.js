@@ -77,7 +77,7 @@ export default function HomeScreen(props) {
         }
 
         if (days_array.length === 0) {
-            alert("You didn't select any days so are just wasting electricity rn");
+            alert("You didn't select any days");
             return;
         }
 

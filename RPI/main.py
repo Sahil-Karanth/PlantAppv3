@@ -65,8 +65,12 @@ def ReceiveAppSignal(event):
 
             days = db.reference('/days').get()
             print("STARTING TIMED WATERING: ", days)
+            
+            for day in days:
+                getattr(schedule.every(), day.lower()).at("12:00").do(PerformTimedWatering, seconds_to_water=3)
 
-            schedule.every(10).seconds.do(PerformTimedWatering, seconds_to_water=3)
+
+            
 
     db.reference("/pi_signal").set(event.data)
 
