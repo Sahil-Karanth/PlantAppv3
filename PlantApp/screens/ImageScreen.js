@@ -9,14 +9,26 @@ import { ref, getDownloadURL } from "firebase/storage";
 export default function ImageScreen({ navigation }) {
 
   const [imageURL, setImageURL] = useState('');
+  const [imageNotFound, setImageNotFound] = useState(false);
 
   useEffect(() => {
     
     const fetchImage = async () => {
-      const storageRef = ref(storage, 'rpi_test_image.jpg');
-      const url = await getDownloadURL(storageRef);
-      console.log(url);
-      setImageURL(url);
+    
+      try{
+        const storageRef = ref(storage, 'latest_image.jpg');
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+        setImageURL(url);
+      } catch (error) {
+        
+        if (error.code === 'storage/object-not-found') {
+          console.log("No image found");
+          setImageNotFound(true);
+        } else {
+          console.log("Error fetching image: ", error);
+        }
+      }
     }
 
     try {
@@ -28,17 +40,20 @@ export default function ImageScreen({ navigation }) {
   }, []);
 
   return (
-      <View style={[GlobalStyles.container, styles.container]}>
-        {!imageURL ? (
-          <ActivityIndicator size="xl" color="#0000ff" />
-        ) : (
-          <Image
-            source={{ uri: imageURL }}
-            style={styles.image}
+      
+    <View style={[styles.container, GlobalStyles.container]}>
+      {imageNotFound ? (
+        <Text style={GlobalStyles.text}>No image found</Text>
+      ) : !imageURL ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <Image
+          style={styles.image}
+          source={{ uri: imageURL }}
+        />
+      )}
+    </View>
 
-          />
-        )}
-      </View>
   );
 }
 
@@ -55,6 +70,9 @@ const styles = StyleSheet.create({
   }
 
 });
+
+
+
 
 
 
