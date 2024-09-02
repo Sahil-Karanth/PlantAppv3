@@ -11,7 +11,8 @@ import TimedContent from '../components/TimedContent';
 import SettingsModal from '../components/SettingsModal';
 
 // firebase imports
-import db from '../FirebaseConfig';
+// note that db is exported like module.exports = { db, storage };
+import { db } from '../FirebaseConfig';
 import { get, ref, onValue, set, update, remove } from "firebase/database";
 
 export default function HomeScreen({ navigation }) {
@@ -60,7 +61,9 @@ export default function HomeScreen({ navigation }) {
             } else if (data.mode === "timed") {
                 setIsStartTimed(isStart);
             }
-        }); 
+        });
+
+        console.log("Actual end of useEffect");
 
     }, [toggleState])
 
@@ -161,7 +164,7 @@ export default function HomeScreen({ navigation }) {
                 />
             )}
 
-            <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
+            {/* <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} /> */}
 
         </View>
   );

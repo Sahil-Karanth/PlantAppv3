@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDNiCinHyQRklBtI9LvbUqMuwUzTG_bGGs",
@@ -9,11 +10,14 @@ const firebaseConfig = {
   storageBucket: "plant-app-d11b6.appspot.com",
   messagingSenderId: "186759607554",
   appId: "1:186759607554:web:424685356cb4f3732afe1b",
-  measurementId: "G-X3SKPRV6QH"
+  measurementId: "G-X3SKPRV6QH",
+  storageBucket: "plant-app-d11b6.appspot.com"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 
-export default db;
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+export { db, storage };
