@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import db from '../FirebaseConfig';
+import { db } from '../FirebaseConfig';
 import { ref, update, onValue } from "firebase/database";
 
 export default function SettingsModal(props) {

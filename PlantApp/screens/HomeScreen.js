@@ -164,7 +164,7 @@ export default function HomeScreen({ navigation }) {
                 />
             )}
 
-            {/* <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} /> */}
+            <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
 
         </View>
   );
