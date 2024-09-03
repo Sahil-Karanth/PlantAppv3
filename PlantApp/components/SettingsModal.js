@@ -6,7 +6,7 @@ import { ref, update, onValue } from "firebase/database";
 
 export default function SettingsModal(props) {
     const [systemResponsive, setSystemResponsive] = useState(false);
-    let pingSent = false;
+    const [cpuTemp, setCpuTemp] = useState(null);
 
     useEffect(() => {
         if (!props.modalOpen) {
@@ -20,6 +20,10 @@ export default function SettingsModal(props) {
                 response_app_ping: false,
             });
 
+            // Reset CPU temp state
+            setCpuTemp(null);
+            const CPURef = ref(db, 'pi_cpu_response');    
+
             return
 
         }
@@ -28,7 +32,7 @@ export default function SettingsModal(props) {
 
         const dbRef = ref(db);
 
-        // Send ping to Pi
+        // Send ping to Pi (pi then responds with pong and CPU temp)
         update(dbRef, {
             response_app_ping: true,
         });
@@ -42,9 +46,18 @@ export default function SettingsModal(props) {
             }
         });
 
+        // Set up listener for cpu temp
+        const cpuTempListener = ref(db, 'pi_cpu_response');
+        const cpuTempUnsubscribe = onValue(cpuTempListener, (snapshot) => {
+            const cpuTemp = snapshot.val();
+            console.log("CPU temp: ", cpuTemp);
+            setCpuTemp(cpuTemp);
+        });
+
         // Clean up listener on unmount or when modal closes
         return () => {
             unsubscribe();
+            cpuTempUnsubscribe();
         };
 
     }, [props.modalOpen]);
@@ -86,6 +99,8 @@ export default function SettingsModal(props) {
                     </TouchableOpacity>
                     
                     <Text style={styles.TableRow}>System responsive: {systemResponsive ? 'Yes' : 'No'}</Text>
+
+                    <Text style={styles.TableRow}>CPU temp: {cpuTemp ? cpuTemp : 'N/A'}</Text>
 
                     <TouchableOpacity onPress={handleShutdown}>
                         <Text style={styles.button}>Shutdown System</Text>

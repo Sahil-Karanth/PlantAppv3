@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import GlobalStyles from '../styles/styles';
 
 // firebase imports
-import { storage } from '../FirebaseConfig';
-import { ref, getDownloadURL } from "firebase/storage";
+import { storage, db } from '../FirebaseConfig';
+import { ref as ref_storage, getDownloadURL } from "firebase/storage";
+import { ref as ref_db, update } from "firebase/database";
 
 export default function ImageScreen({ navigation }) {
 
@@ -16,7 +17,7 @@ export default function ImageScreen({ navigation }) {
     const fetchImage = async () => {
     
       try{
-        const storageRef = ref(storage, 'latest_image.jpg');
+        const storageRef = ref_storage(storage, 'latest_image.jpg');
         const url = await getDownloadURL(storageRef);
         console.log(url);
         setImageURL(url);
@@ -32,9 +33,29 @@ export default function ImageScreen({ navigation }) {
     }
 
     try {
+
+      // first tell the pi to take a picture
+      const dbRef = ref_db(db);
+
+      update(dbRef, {
+          camera_app_signal: true,
+      });
+
+      console.log("signal sent to pi to take a picture");
+      
+
+      // then fetch the image taken
       fetchImage();
+
     } catch (error) {
       console.log("error fetching image: ", error);
+    }
+
+    return () => {
+      const dbRef = ref_db(db);
+      update(dbRef, {
+          camera_app_signal: false,
+      });
     }
 
   }, []);
