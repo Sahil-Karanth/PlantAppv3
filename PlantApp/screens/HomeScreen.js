@@ -1,4 +1,4 @@
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import React, { useState, useEffect } from 'react';
@@ -23,6 +23,7 @@ export default function HomeScreen({ navigation }) {
     const [isStartManual, setIsStartManual] = useState(false)
     const [isStartTimed, setIsStartTimed] = useState(false)
     const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+    const [waitingOnPi, setWaitingOnPi] = useState(false);
 
 
     useEffect(() => {
@@ -61,9 +62,8 @@ export default function HomeScreen({ navigation }) {
             } else if (data.mode === "timed") {
                 setIsStartTimed(isStart);
             }
+            setWaitingOnPi(false);
         });
-
-        console.log("Actual end of useEffect");
 
     }, [toggleState])
 
@@ -83,6 +83,7 @@ export default function HomeScreen({ navigation }) {
             app_signal: true,
         });
 
+        setWaitingOnPi(true);
 
     }
 
@@ -96,6 +97,8 @@ export default function HomeScreen({ navigation }) {
             mode: "manual",
             app_signal: false,
         });
+
+        setWaitingOnPi(true);
 
     }
 
@@ -120,6 +123,9 @@ export default function HomeScreen({ navigation }) {
         });
 
         console.log("Start (timed) with days: ", days_array);
+    
+        setWaitingOnPi(true);
+
     }
 
     const handleStopTimed = () => {
@@ -133,6 +139,16 @@ export default function HomeScreen({ navigation }) {
             days: []
         });
 
+        setWaitingOnPi(true);
+
+    }
+
+    const handleCancelPiReq = () => {
+        const dbRef = ref(db);
+        update(dbRef, {
+            app_signal: false,
+        });
+        setWaitingOnPi(false);
     }
 
     return (
@@ -163,6 +179,9 @@ export default function HomeScreen({ navigation }) {
                     manualRunning={isStartManual}
                 />
             )}
+
+            {waitingOnPi ?
+                <Text onPress={handleCancelPiReq} >Waiting on Pi. Press here to cancel request</Text> : null}
 
             <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
 

@@ -12,17 +12,20 @@ export default function TimedContent(props) {
   return (
     <View style={styles.ComponentContainer}>
 
-      <DaysDropdown DropdownDisabled={props.isStart} setDays={props.setDays} />
+    <DaysDropdown DropdownDisabled={props.isStart} setDays={props.setDays} />
 
-      {props.isStart ? <InProgressText /> : null}
-      <StartStopButton
-        isStart={props.isStart}
-        setIsStart={props.setIsStart}
-        timed={true}
-        manualRunning={props.manualRunning}
-        handleStart={props.handleStart}
-        handleStop={props.handleStop}
-      />
+    {props.isStart ? <InProgressText /> : null}
+
+    {props.startSignalSent ? <Text style={styles.SignalText}>Signal Sent</Text> : null}
+
+    <StartStopButton
+      isStart={props.isStart}
+      setIsStart={props.setIsStart}
+      timed={true}
+      manualRunning={props.manualRunning}
+      handleStart={props.handleStart}
+      handleStop={props.handleStop}
+    />
 
     </View>
   );
