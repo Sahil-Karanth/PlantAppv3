@@ -181,7 +181,8 @@ export default function HomeScreen({ navigation }) {
             )}
 
             {waitingOnPi ?
-                <Text onPress={handleCancelPiReq} >Waiting on Pi. Press here to cancel request</Text> : null}
+                
+                <TouchableOpacity onPress={handleCancelPiReq}><Text>Waiting on Pi. Press here to cancel request</Text></TouchableOpacity> : null}
 
             <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
 
