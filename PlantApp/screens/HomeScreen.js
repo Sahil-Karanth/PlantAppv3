@@ -15,7 +15,7 @@ import SettingsModal from '../components/SettingsModal';
 import { db } from '../FirebaseConfig';
 import { get, ref, onValue, set, update, remove } from "firebase/database";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, route }) {
 
     const [isManualPage, setIsManualPage] = useState(true);
     const [days, setDays] = useState([]);
@@ -24,7 +24,6 @@ export default function HomeScreen({ navigation }) {
     const [isStartTimed, setIsStartTimed] = useState(false)
     const [settingsModalOpen, setSettingsModalOpen] = useState(false);
     const [waitingOnPi, setWaitingOnPi] = useState(false);
-
 
     useEffect(() => {
 
@@ -185,7 +184,6 @@ export default function HomeScreen({ navigation }) {
                 <TouchableOpacity onPress={handleCancelPiReq}><Text>Waiting on Pi. Press here to cancel request</Text></TouchableOpacity> : null}
 
             <SettingsModal modalOpen={settingsModalOpen} setModalOpen={setSettingsModalOpen} />
-
         </View>
   );
 }

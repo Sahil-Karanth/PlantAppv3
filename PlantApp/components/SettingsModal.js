@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { db } from '../FirebaseConfig';
+import { db, auth } from '../FirebaseConfig';
 import { ref, update, onValue } from "firebase/database";
 
 export default function SettingsModal(props) {
@@ -89,6 +89,14 @@ export default function SettingsModal(props) {
         });
     }
 
+    const signUserOut = async() => {
+        auth.signOut().then(() => {
+            console.log("User signed out");
+        }).catch((error) => {
+            console.log("Error signing out: ", error);
+        });
+    };
+
 
     return (
         <Modal visible={props.modalOpen} animationType='slide' transparent={true}>
@@ -102,8 +110,12 @@ export default function SettingsModal(props) {
 
                     <Text style={styles.TableRow}>CPU temp: {cpuTemp ? cpuTemp : 'N/A'}</Text>
 
+                    <TouchableOpacity onPress={signUserOut}>
+                        <Text style={[styles.TableRow, styles.blue]}>Sign Out</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={handleShutdown}>
-                        <Text style={styles.button}>Shutdown System</Text>
+                        <Text style={[styles.TableRow, styles.red]}>Shutdown System</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -134,13 +146,16 @@ const styles = StyleSheet.create({
         marginVertical: 15,
         fontSize: 20,
     },
-    button: {
+
+    red: {
         backgroundColor: '#ff4747',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 20,
         textAlign: 'center',
         color: 'white',
-        fontSize: 20
+    },
+
+    blue: {
+        backgroundColor: '#253CDA',
+        textAlign: 'center',
+        color: 'white',
     }
 });
