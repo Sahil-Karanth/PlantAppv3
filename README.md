@@ -1,5 +1,5 @@
 # PlantAppv3
-Finshed app for my raspberry pi plant watering project.
+Finshed app for my raspberry pi plant watering project (using a solenoid valve and pneumatic tubing to water a series of plants)
 Includes:
 - manual watering
 - scheduled watering
