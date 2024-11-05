@@ -1,6 +1,6 @@
 # PlantAppv3
 Finshed app for my raspberry pi plant watering project (using a solenoid valve and pneumatic tubing to water a series of plants)
-Includes:
+which includes:
 - manual watering
 - scheduled watering
 - control from anywhere in the world
